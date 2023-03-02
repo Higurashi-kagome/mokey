@@ -12,7 +12,7 @@
 // ChatGPT 出错时自动刷新页面重新提问
 (function() {
     'use strict';
-    let key = "ChatGPT_question"
+    let key = "ChatGPT_question2"
     window.onload = ()=>{
         let value = GM_getValue(key, '')
         console.log(value)
@@ -31,8 +31,12 @@
     setInterval(() => {
         let el = document.getElementsByClassName('border-red-500')
         if(el?.length) {
-            let mask = document.getElementsByClassName("rounded-sm")
-            let question = mask[mask.length-2].parentElement.parentElement.parentElement.parentElement.textContent
+            let gray = document.getElementsByClassName("bg-gray-50")
+            let question = gray[gray.length-1].previousSibling.textContent
+            if(question.length>1000){
+                console.log('问题过长')
+                return
+            }
             GM_setValue(key, question)
             location.reload()
         }
