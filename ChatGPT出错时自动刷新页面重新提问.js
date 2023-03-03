@@ -31,8 +31,10 @@
     setInterval(() => {
         let el = document.getElementsByClassName('border-red-500')
         if(el?.length) {
-            let gray = document.getElementsByClassName("bg-gray-50")
-            let question = gray[gray.length-1].previousSibling.textContent
+            let gray = document.getElementsByClassName('bg-gray-50')
+            let last = gray[gray.length-1]
+            if(last.tagName != 'DIV') return
+            let question = last.previousSibling.textContent
             if(question.length>1000){
                 console.log('问题过长')
                 return
