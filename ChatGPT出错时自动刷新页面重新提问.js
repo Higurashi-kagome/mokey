@@ -20,7 +20,7 @@
             let id = setInterval(() => {
                 let input = document.querySelector('textarea')
                 let mask = document.getElementsByClassName("rounded-sm")
-                if(!input || !mask?.length)return
+                if(!input || !mask?.length) return
                 input.value = value
                 input.parentElement.querySelector('button').click()
                 GM_setValue(key, '')
@@ -31,13 +31,16 @@
     setInterval(() => {
         let el = document.getElementsByClassName('border-red-500')
         if(el?.length) {
-            let gray = document.getElementsByClassName('bg-gray-50')
+            // 灰色 div 容器（ChatGPT 回复）
+            let gray = document.querySelectorAll('div.bg-gray-50')
             let last = gray[gray.length-1]
-            if(last.tagName != 'DIV') return
-            let question = last.previousSibling.textContent
-            if(question.length>1000){
-                console.log('问题过长')
-                return
+            let question = ''
+            if(last.textContent.indexOf('An error occurred') > -1) {
+                question = last.previousSibling.textContent
+            }
+            if(question.length > 1000){
+                console.error('问题过长')
+                question = ''
             }
             GM_setValue(key, question)
             location.reload()
