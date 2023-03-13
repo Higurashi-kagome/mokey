@@ -29,15 +29,12 @@
         }
     }
     setInterval(() => {
-        let el = document.getElementsByClassName('border-red-500')
-        if(el?.length) {
+        let el = document.querySelector('.border-red-500.bg-red-500\\/10')
+        if(el) {
             // 灰色 div 容器（ChatGPT 回复）
             let gray = document.querySelectorAll('div.bg-gray-50')
             let last = gray[gray.length-1]
-            let question = ''
-            if(last.textContent.indexOf('An error occurred') > -1) {
-                question = last.previousSibling.textContent
-            }
+            let question = last.previousSibling.textContent
             if(question.length > 1000){
                 console.error('问题过长')
                 question = ''
