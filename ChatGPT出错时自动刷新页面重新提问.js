@@ -17,30 +17,41 @@
         let value = GM_getValue(key, '')
         console.log(value)
         if(value){
-            let id = setInterval(() => {
-                let input = document.querySelector('textarea')
-                let mask = document.getElementsByClassName("rounded-sm")
-                if(!input || !mask?.length) return
-                input.value = value
-                input.parentElement.querySelector('button').click()
-                GM_setValue(key, '')
+            const id = setInterval(() => {
+                // 等待出现对话
+                const mask = document.getElementsByClassName("rounded-sm")
+                if(!mask?.length) return
+                // 等待出现输入框或“重新提问”按钮
+                const input = document.querySelector('textarea')
+                const reopen = document.querySelector('.btn.relative.btn-primary.m-auto')
+                if(!reopen && !input ) return
+                if(reopen && reopen.textContent.indexOf('Regenerate') > -1) {
+                    reopen.click()
+                } else if (input) {
+                    input.value = value
+                    input.parentElement.querySelector('button').click()
+                } else return
                 clearInterval(id)
-            }, 500);
+                GM_setValue(key, '')
+            }, 1000);
         }
-    }
-    setInterval(() => {
-        let el = document.querySelector('.border-red-500.bg-red-500\\/10')
-        if(el) {
+        const id = setInterval(() => {
             // 灰色 div 容器（ChatGPT 回复）
             let gray = document.querySelectorAll('div.bg-gray-50')
             let last = gray[gray.length-1]
-            let question = last.previousSibling.textContent
-            if(question.length > 1000){
-                console.error('问题过长')
-                question = ''
+            // 错误
+            let err = last?.querySelector('.border-red-500')
+            if(err) {
+                // 最后的提问
+                let question = last.previousSibling.textContent
+                if(question.length > 1000){
+                    console.error('问题过长')
+                    question = ''
+                }
+                GM_setValue(key, question)
+                clearInterval(id)
+                location.reload()
             }
-            GM_setValue(key, question)
-            location.reload()
-        }
-    }, 500);
+        }, 500);
+    }
 })();
