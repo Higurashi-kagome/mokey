@@ -29,7 +29,9 @@
                     reopen.click()
                 } else if (input) {
                     input.value = value
-                    input.parentElement.querySelector('button').click()
+                    const btn = input.parentElement.querySelector('button')
+                    btn.disabled = false
+                    btn.click()
                 } else return
                 clearInterval(id)
                 GM_setValue(key, '')
@@ -43,7 +45,7 @@
             let err = last?.querySelector('.border-red-500')
             if(err) {
                 // 最后的提问
-                let question = last.previousSibling.textContent
+                let question = last.previousSibling.querySelector('.flex-grow.gap-3').textContent
                 if(question.length > 1000){
                     console.error('问题过长')
                     question = ''
