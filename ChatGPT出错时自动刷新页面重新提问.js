@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  ChatGPT 出错时自动刷新页面重新提问
 // @author       Hao Liu
-// @match        https://chat.openai.com/chat*
+// @match        https://chat.openai.com/c/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=openai.com
 // @grant        GM_getValue
 // @grant        GM_setValue
